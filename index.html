@@ -274,3 +274,61 @@ function closeReactionModal(){document.getElementById('reaction-modal').style.di
 
 </body>
 </html>
+<script>
+// --- Переключение языков ---
+const translations = {
+  ru: {
+    home: "Главная",
+    animations: "Анимации",
+    reaction1_title: "Горение водорода",
+    reaction1_eq: "2 H2 + O2 = 2 H2O",
+    reaction2_title: "Горение магния",
+    reaction2_eq: "2 Mg + O2 = 2 MgO",
+    // ...остальные реакции
+  },
+  kz: {
+    home: "Басты бет",
+    animations: "Анимациялар",
+    reaction1_title: "Сутегі жануы",
+    reaction1_eq: "2 H2 + O2 = 2 H2O",
+    reaction2_title: "Магний жануы",
+    reaction2_eq: "2 Mg + O2 = 2 MgO",
+    // ...остальные реакции
+  }
+};
+
+let currentLang = "ru"; // язык по умолчанию
+
+function setLanguage(lang){
+  currentLang = lang;
+
+  // Меняем текст кнопок навигации
+  document.querySelectorAll("nav a").forEach(btn=>{
+    const key = btn.getAttribute("data-key");
+    if(key && translations[lang][key]){
+      btn.innerText = translations[lang][key];
+    }
+  });
+
+  // Меняем текст открытой реакции, если модалка открыта
+  const modal = document.getElementById("reaction-modal");
+  if(modal.style.display === "block"){
+    const title = document.getElementById("reaction-title");
+    const eq = document.getElementById("reaction-equation");
+    const id = modal.getAttribute("data-current-reaction");
+    if(id){
+      title.innerText = translations[lang][id+"_title"];
+      eq.innerText = translations[lang][id+"_eq"];
+    }
+  }
+}
+
+// Привязываем кнопки к функции
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+  btn.addEventListener("click", e=>{
+    e.preventDefault();
+    const lang = btn.getAttribute("data-lang");
+    setLanguage(lang);
+  });
+});
+</script>
