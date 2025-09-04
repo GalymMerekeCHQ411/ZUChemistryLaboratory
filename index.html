@@ -2,46 +2,34 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Виртуальная химическая лаборатория</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Полоски сверху и снизу -->
-  <div class="header-stripe"></div>
-  <div class="footer-stripe"></div>
-
-  <!-- Навигация -->
+  <h1>🔬 Виртуальная химическая лаборатория</h1>
   <nav>
-    <a href="#">Главная</a>
-    <a href="#">Калькулятор</a>
-    <a href="#">Молекулы</a>
-    <a href="#">Контакты</a>
+    <a href="#calc">Калькулятор</a> |
+    <a href="#animations">Анимации</a> |
+    <a href="#about">О проекте</a>
   </nav>
 
-  <!-- Основной контент -->
-  <section>
-    <h1>Калькулятор молекулярной массы</h1>
-    <input type="text" id="formula" placeholder="Введите формулу, например H2O">
-    <button onclick="calculateMass()">Посчитать</button>
-    <div id="result"></div>
+  <section id="calc">
+    <h2>Калькулятор молекулярной массы</h2>
+    <input type="text" id="formula" placeholder="Например: H2O">
+    <button onclick="calcMass()">Рассчитать</button>
+    <p id="result"></p>
   </section>
 
-  <!-- Колба для фона -->
-  <div id="corner1"></div>
+  <section id="animations">
+    <h2>Анимации реакций</h2>
+    <p>Здесь будут демонстрации химических реакций 🔥</p>
+  </section>
 
-  <!-- Скрипт калькулятора (пример) -->
-  <script>
-    function calculateMass() {
-      const formula = document.getElementById('formula').value;
-      let mass = 0;
-      // Простейший пример: только H, O
-      if (formula.includes('H')) mass += 1.008 * (parseInt(formula.match(/H(\d*)/)?[1] || 1));
-      if (formula.includes('O')) mass += 16.00 * (parseInt(formula.match(/O(\d*)/)?[1] || 1));
-      document.getElementById('result').innerText = `Молекулярная масса: ${mass.toFixed(2)} г/моль`;
-    }
-  </script>
+  <section id="about">
+    <h2>О проекте</h2>
+    <p>Эта виртуальная лаборатория создана для школьников, чтобы изучать химию онлайн и оффлайн.</p>
+  </section>
 
+  <script src="script.js"></script>
 </body>
 </html>
