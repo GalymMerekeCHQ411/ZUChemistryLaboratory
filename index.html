@@ -175,34 +175,88 @@ function calculateMass(){
 }
 
 function openReactionModal(id){
-  const modal=document.getElementById('reaction-modal');
-  const title=document.getElementById('reaction-title');
-  const anim=document.getElementById('reaction-animation');
-  const eq=document.getElementById('reaction-equation');
-  modal.style.display='block';
+  const modal = document.getElementById('reaction-modal');
+  const title = document.getElementById('reaction-title');
+  const anim = document.getElementById('reaction-animation');
+  const eq = document.getElementById('reaction-equation');
+
+  modal.style.display = 'block';
+  anim.innerHTML = ''; // очищаем перед вставкой нового видео
+
   switch(id){
-    case 'reaction1': title.innerText="Горение водорода"; eq.innerText="2 H2 + O2 = 2 H2O";
-      anim.innerHTML=`<div class="flame"></div><div class="bubble"></div><div class="bubble" style="animation-delay:0.3s;"></div><div class="bubble" style="animation-delay:0.6s;"></div>`; break;
-    case 'reaction2': title.innerText="Горение магния"; eq.innerText="2 Mg + O2 = 2 MgO";
-      anim.innerHTML=`<div class="flame" style="background:white;"></div><div class="bubble"></div><div class="bubble" style="animation-delay:0.4s;"></div>`; break;
-    case 'reaction3': title.innerText="Ржавление железа"; eq.innerText="4 Fe + 3 O2 + 6 H2O = 4 Fe(OH)3";
-      anim.innerHTML=`<div class="oxidation"></div>`; break;
-    case 'reaction4': title.innerText="Нейтрализация кислоты"; eq.innerText="HCl + NaOH = NaCl + H2O";
-      anim.innerHTML=`<div class="drop" style="background:#ff6666;"></div><div class="drop" style="background:#66ff66; animation-delay:0.3s;"></div>`; break;
-    case 'reaction5': title.innerText="Растворение соли"; eq.innerText="NaCl(s) -> Na+(aq) + Cl-(aq)";
-      anim.innerHTML=`<div class="drop" style="background:#66ccff;"></div><div class="drop" style="background:#3399ff; animation-delay:0.3s;"></div>`; break;
-    case 'reaction6': title.innerText="Горение углерода"; eq.innerText="C + O2 = CO2";
-      anim.innerHTML=`<div class="flame" style="background:black;"></div><div class="bubble"></div>`; break;
-    case 'reaction7': title.innerText="Взрыв аммония"; eq.innerText="2 NH4NO3 = 2 N2 + O2 + 4 H2O";
-      anim.innerHTML=`<div class="explosion"></div>`; break;
-    case 'reaction8': title.innerText="Горение натрия"; eq.innerText="2 Na + Cl2 = 2 NaCl";
-      anim.innerHTML=`<div class="flame" style="background:orange;"></div><div class="bubble"></div>`; break;
-    case 'reaction9': title.innerText="Окисление меди"; eq.innerText="2 Cu + O2 = 2 CuO";
-      anim.innerHTML=`<div class="oxidation"></div>`; break;
-    case 'reaction10': title.innerText="Гидролиз воды"; eq.innerText="2 H2O = 2 H2 + O2";
-      anim.innerHTML=`<div class="bubble" style="background:blue;"></div><div class="bubble" style="background:lightblue; animation-delay:0.3s;"></div>`; break;
+    case 'reaction1':
+      title.innerText = "Горение водорода";
+      eq.innerText = "2 H2 + O2 = 2 H2O";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/hydrogen_burning.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction2':
+      title.innerText = "Горение магния";
+      eq.innerText = "2 Mg + O2 = 2 MgO";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/magnesium_burning.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction3':
+      title.innerText = "Ржавление железа";
+      eq.innerText = "4 Fe + 3 O2 + 6 H2O = 4 Fe(OH)3";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/iron_rust.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction4':
+      title.innerText = "Нейтрализация кислоты";
+      eq.innerText = "HCl + NaOH = NaCl + H2O";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/neutralization.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction5':
+      title.innerText = "Растворение соли";
+      eq.innerText = "NaCl(s) → Na+(aq) + Cl-(aq)";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/salt_dissolve.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction6':
+      title.innerText = "Горение углерода";
+      eq.innerText = "C + O2 = CO2";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/carbon_burning.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction7':
+      title.innerText = "Взрыв аммония";
+      eq.innerText = "2 NH4NO3 → 2 N2 + O2 + 4 H2O";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/ammonium_explosion.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction8':
+      title.innerText = "Горение натрия";
+      eq.innerText = "2 Na + Cl2 = 2 NaCl";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/sodium_burning.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction9':
+      title.innerText = "Окисление меди";
+      eq.innerText = "2 Cu + O2 = 2 CuO";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/copper_oxidation.mp4" type="video/mp4">
+                        </video>`;
+      break;
+    case 'reaction10':
+      title.innerText = "Гидролиз воды";
+      eq.innerText = "2 H2O = 2 H2 + O2";
+      anim.innerHTML = `<video width="100%" controls autoplay>
+                          <source src="videos/water_hydrolysis.mp4" type="video/mp4">
+                        </video>`;
+      break;
   }
 }
+
 
 function closeReactionModal(){document.getElementById('reaction-modal').style.display='none';}
 </script>
