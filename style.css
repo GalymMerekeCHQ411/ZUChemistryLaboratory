@@ -128,8 +128,8 @@ body::before {
 body::after {
   content: "";
   position: absolute;
-  width: 160px;
-  height: 160px;
+  width: 320px;
+  height: 320px;
   bottom: 20px;
   right: 20px;
   background: url('images/molecule.svg') no-repeat center/contain;
