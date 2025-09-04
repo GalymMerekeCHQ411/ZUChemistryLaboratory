@@ -1,143 +1,165 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Виртуальная химическая лаборатория</title>
-  <style>
-    body { font-family: 'Arial', sans-serif; background:#f5f5f5; margin:0; padding:0; }
-    nav { padding:15px; text-align:center; background:#1A237E; }
-    nav a {
-  color:#FF9800;
-  margin:0 15px;
-  text-decoration:none;
-  font-weight:bold;
-  font-size:18px;
-  transition: 0.3s;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Виртуальная лаборатория химии</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Навигация */
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #1A237E;
+  padding: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.3s;
+}
+
+/* Свечение кнопок при наведении */
+nav a:hover {
+  text-shadow: 0 0 10px #FFC107, 0 0 20px #FF9800;
+}
+
+/* SVG фоны */
+.svg-bg {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  opacity: 0.3;
+}
+.svg-top-left { top: 0; left: 0; }
+.svg-bottom-right { bottom: 0; right: 0; }
+
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow:auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
   position: relative;
 }
 
-nav a:hover {
-  text-shadow: 0 0 5px #FF9800, 0 0 10px #FF9800, 0 0 20px #FF9800, 0 0 40px #FF9800;
-  color:#fff;
+.close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 30px;
+  cursor: pointer;
 }
 
-    nav a:hover { text-decoration:underline; }
+/* Название и уравнение реакции */
+#reaction-title {
+  font-size: 36px;
+  color: #1A237E;
+  margin-bottom: 15px;
+}
 
-    section { padding:30px; max-width:900px; margin:auto; position:relative; }
+#reaction-equation {
+  font-size: 28px; /* увеличено на 30% */
+  color: #222;
+  margin-top: 15px;
+  text-align: center;
+  white-space: pre-wrap;
+}
 
-    input[type=text] { padding:12px; width:60%; font-size:16px; border-radius:5px; border:1px solid #ccc; }
-    button { padding:12px 20px; margin:5px; font-size:16px; cursor:pointer; border:none; border-radius:5px;
-             background:#FF9800; color:#fff; transition:0.3s; }
-    button:hover { background:#e68900; }
+/* Калькулятор */
+#calculator {
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: center;
+}
+#calculator input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+#calculator button {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+#error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-    #result { margin-top:15px; font-size:18px; }
-
-    .reaction-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:20px; }
-
-    /* Модальное окно */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 100;
-      padding-top: 50px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.7);
-    }
-    .modal-content {
-      background-color: #fff;
-      margin: auto;
-      padding: 25px;
-      width: 80%;
-      max-width: 600px;
-      border-radius: 12px;
-      text-align: center;
-      position: relative;
-    }
-    .close {
-      color: #333;
-      position:absolute;
-      top:10px;
-      right:20px;
-      font-size:28px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    /* CSS-анимации реакций */
-    .flame {
-      width: 20px;
-      height: 50px;
-      margin: 0 auto;
-      background: radial-gradient(ellipse at center, orange, red);
-      border-radius: 50%;
-      animation: flameAnim 0.5s infinite alternate;
-    }
-    @keyframes flameAnim {
-      0% { transform: scaleY(1); opacity: 0.7; }
-      50% { transform: scaleY(1.5) translateY(-5px); opacity: 1; }
-      100% { transform: scaleY(1); opacity: 0.7; }
-    }
-    .bubble { position: relative; width: 15px; height: 15px; background: rgba(173,216,230,0.7);
-      border-radius: 50%; display: inline-block; margin: 0 5px; animation: rise 2s infinite; }
-    @keyframes rise { 0% { transform: translateY(0); opacity: 0.8; } 50% { transform: translateY(-50px); opacity:1;}
-      100% { transform: translateY(-100px); opacity:0; } }
-    .drop { width: 20px; height: 20px; border-radius: 50%; margin: 0 5px; display: inline-block; animation: dropFall 2s infinite;}
-    @keyframes dropFall { 0% {transform:translateY(0);opacity:1;} 50%{transform:translateY(30px);opacity:0.7;}
-      100%{transform:translateY(60px);opacity:0;} }
-    .explosion { width: 30px; height:30px; border-radius:50%; background: yellow; animation: explodeAnim 0.5s infinite alternate; }
-    @keyframes explodeAnim { 0%{transform:scale(1);opacity:1;background:yellow;} 50%{transform:scale(2);opacity:0.7;background:orange;} 100%{transform:scale(3);opacity:0;background:red;} }
-    .oxidation { width:100px; height:20px; margin:0 auto; background:#b7410e; animation: oxidize 3s infinite alternate; }
-    @keyframes oxidize {0%{background:#b7410e;}50%{background:#cd853f;}100%{background:#b7410e;} }
-
-    /* Декоративные SVG на фоне */
-    .svg-background { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; }
-    .decor { position:absolute; width:80px; height:auto; opacity:0.2; }
-    .decor1 { top:30px; left:30px; }
-    .decor2 { bottom:40px; right:50px; }
-    .decor3 { top:150px; right:100px; }
-  </style>
+/* Видео реакций */
+video {
+  max-width: 100%;
+  border-radius: 10px;
+}
+</style>
 </head>
 <body>
 
-<div class="svg-background">
-  <img src="images/flask.svg" class="decor decor1">
-  <img src="images/molecule.svg" class="decor decor2">
-  <img src="images/bubble.svg" class="decor decor3">
-</div>
+<!-- SVG элементы -->
+<img src="svg1.svg" class="svg-bg svg-top-left">
+<img src="svg2.svg" class="svg-bg svg-bottom-right">
 
+<!-- Навигация -->
 <nav>
-  <a href="#" onclick="showSection('calculator-section')">Главная</a>
-  <a href="#" onclick="showSection('animations-section')">Анимации</a>
+  <a href="#" class="lang-btn" data-lang="ru" data-key="home">Главная</a>
+  <a href="#" class="lang-btn" data-lang="kz" data-key="home">Басты бет</a>
+
+  <a href="#" class="lang-btn" data-lang="ru" data-key="animations">Анимации</a>
+  <a href="#" class="lang-btn" data-lang="kz" data-key="animations">Анимациялар</a>
 </nav>
 
-<section id="calculator-section">
-  <h1>Калькулятор молекулярной массы</h1>
-  <input type="text" id="formula" placeholder="Введите формулу, например H2O">
-  <button onclick="calculateMass()">Посчитать</button>
+<!-- Калькулятор -->
+<div id="calculator">
+  <input type="text" id="formula" placeholder="Введите формулу (например H2O)">
+  <button onclick="calculateMass()">Рассчитать массу</button>
   <div id="result"></div>
-</section>
+  <div id="error-message"></div>
+</div>
 
-<section id="animations-section" style="display:none;">
-  <h1>Анимации химических реакций</h1>
-  <div class="reaction-buttons">
-    <button onclick="openReactionModal('reaction1')">Горение водорода</button>
-    <button onclick="openReactionModal('reaction2')">Горение магния</button>
-    <button onclick="openReactionModal('reaction3')">Ржавление железа</button>
-    <button onclick="openReactionModal('reaction4')">Нейтрализация кислоты</button>
-    <button onclick="openReactionModal('reaction5')">Растворение соли</button>
-    <button onclick="openReactionModal('reaction6')">Горение углерода</button>
-    <button onclick="openReactionModal('reaction7')">Взрыв аммония</button>
-    <button onclick="openReactionModal('reaction8')">Горение натрия</button>
-    <button onclick="openReactionModal('reaction9')">Окисление меди</button>
-    <button onclick="openReactionModal('reaction10')">Гидролиз воды</button>
-  </div>
-</section>
+<!-- Кнопки реакций -->
+<div id="reaction-buttons" style="text-align:center;">
+  <button onclick="openReactionModal('reaction1')">Горение водорода</button>
+  <button onclick="openReactionModal('reaction2')">Горение магния</button>
+  <button onclick="openReactionModal('reaction3')">Ржавление железа</button>
+  <button onclick="openReactionModal('reaction4')">Нейтрализация кислоты</button>
+  <button onclick="openReactionModal('reaction5')">Растворение соли</button>
+  <button onclick="openReactionModal('reaction6')">Горение углерода</button>
+  <button onclick="openReactionModal('reaction7')">Взрыв аммония</button>
+  <button onclick="openReactionModal('reaction8')">Горение натрия</button>
+  <button onclick="openReactionModal('reaction9')">Окисление меди</button>
+  <button onclick="openReactionModal('reaction10')">Гидролиз воды</button>
+</div>
 
+<!-- Модальное окно -->
 <div id="reaction-modal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeReactionModal()">&times;</span>
@@ -148,119 +170,100 @@ nav a:hover {
 </div>
 
 <script>
-// Массы элементов
-const atomicMass = {
-  H: 1.008, He: 4.0026, Li: 6.94, Be: 9.0122, B: 10.81, C: 12.01, N: 14.01, O: 16.00, F: 18.998, Ne: 20.180,
-  Na: 22.990, Mg: 24.305, Al: 26.982, Si: 28.085, P: 30.974, S: 32.06, Cl: 35.45, Ar: 39.948, K: 39.098, Ca: 40.078,
-  Sc: 44.956, Ti: 47.867, V: 50.942, Cr: 51.996, Mn: 54.938, Fe: 55.845, Co: 58.933, Ni: 58.693, Cu: 63.546, Zn: 65.38,
-  Ga: 69.723, Ge: 72.630, As: 74.922, Se: 78.971, Br: 79.904, Kr: 83.798, Rb: 85.468, Sr: 87.62, Y: 88.906, Zr: 91.224,
-  Nb: 92.906, Mo: 95.95, Tc: 98, Ru: 101.07, Rh: 102.91, Pd: 106.42, Ag: 107.87, Cd: 112.41, In: 114.82, Sn: 118.71,
-  Sb: 121.76, Te: 127.60, I: 126.90, Xe: 131.29, Cs: 132.91, Ba: 137.33, La: 138.91, Ce: 140.12, Pr: 140.91, Nd: 144.24,
-  Pm: 145, Sm: 150.36, Eu: 151.96, Gd: 157.25, Tb: 158.93, Dy: 162.50, Ho: 164.93, Er: 167.26, Tm: 168.93, Yb: 173.05,
-  Lu: 174.97, Hf: 178.49, Ta: 180.95, W: 183.84, Re: 186.21, Os: 190.23, Ir: 192.22, Pt: 195.08, Au: 196.97, Hg: 200.59,
-  Tl: 204.38, Pb: 207.2, Bi: 208.98, Po: 209, At: 210, Rn: 222, Fr: 223, Ra: 226, Ac: 227, Th: 232.04, Pa: 231.04,
-  U: 238.03, Np: 237, Pu: 244, Am: 243, Cm: 247, Bk: 247, Cf: 251, Es: 252, Fm: 257, Md: 258, No: 259, Lr: 262,
-  Rf: 267, Db: 270, Sg: 271, Bh: 270, Hs: 277, Mt: 276, Ds: 281, Rg: 282, Cn: 285, Fl: 289, Lv: 293, Ts: 294, Og: 294
+// ===== Калькулятор =====
+const elements = {
+  H: 1.008, He:4.0026, Li:6.94, Be:9.0122, B:10.81, C:12.011, N:14.007,
+  O:15.999, F:18.998, Ne:20.180, Na:22.990, Mg:24.305, Al:26.982, Si:28.085,
+  P:30.974, S:32.06, Cl:35.45, K:39.098, Ca:40.078, Fe:55.845, Cu:63.546,
+  Zn:65.38
+  // можно добавить остальные элементы
 };
 
+function calculateMass() {
+  const formula = document.getElementById("formula").value;
+  const resultDiv = document.getElementById("result");
+  const errorDiv = document.getElementById("error-message");
+  resultDiv.innerText = "";
+  errorDiv.innerText = "";
 
-function showSection(id){
-  document.getElementById('calculator-section').style.display='none';
-  document.getElementById('animations-section').style.display='none';
-  document.getElementById(id).style.display='block';
-}
-
-function calculateMass(){
-  const formula=document.getElementById('formula').value;
-  const regex=/([A-Z][a-z]?)(\d*)/g;
-  let match,total=0,unknown=[];
-  while(match=regex.exec(formula)){
-    const element=match[1];
-    const count=parseInt(match[2]||1);
-    if(atomicMass[element]) total+=atomicMass[element]*count;
-    else unknown.push(element);
+  try {
+    const regex = /([A-Z][a-z]?)(\d*)/g;
+    let match;
+    let mass = 0;
+    while ((match = regex.exec(formula)) !== null) {
+      const elem = match[1];
+      const count = parseInt(match[2] || "1");
+      if (!elements[elem]) {
+        throw new Error(`Ошибка: элемент ${elem} не найден`);
+      }
+      mass += elements[elem]*count;
+    }
+    resultDiv.innerText = "Молекулярная масса: "+mass.toFixed(3);
+  } catch(e) {
+    errorDiv.innerText = e.message;
   }
-  const res=document.getElementById('result');
-  if(unknown.length>0){ res.innerHTML=`Ошибка: неизвестные элементы: ${unknown.join(', ')}.`; res.style.color='red'; }
-  else { res.innerHTML=`Молекулярная масса: ${total.toFixed(2)} г/моль`; res.style.color='black'; }
 }
 
+// ===== Модальное окно реакций с видео =====
 function openReactionModal(id){
   const modal = document.getElementById('reaction-modal');
+  modal.setAttribute("data-current-reaction", id);
   const title = document.getElementById('reaction-title');
-  const anim = document.getElementById('reaction-animation');
   const eq = document.getElementById('reaction-equation');
-
+  const anim = document.getElementById('reaction-animation');
+  anim.innerHTML = "";
   modal.style.display = 'block';
-  anim.innerHTML = ''; // очищаем перед вставкой нового видео
+
+  title.innerText = translations[currentLang][id+"_title"];
+  eq.innerText = translations[currentLang][id+"_eq"];
 
   switch(id){
     case 'reaction1':
-      title.innerText = "Горение водорода";
-      eq.innerText = "2 H2 + O2 = 2 H2O";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/hydrogen_burning.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction2':
-      title.innerText = "Горение магния";
-      eq.innerText = "2 Mg + O2 = 2 MgO";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/magnesium_burning.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction3':
-      title.innerText = "Ржавление железа";
-      eq.innerText = "4 Fe + 3 O2 + 6 H2O = 4 Fe(OH)3";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/iron_rust.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction4':
-      title.innerText = "Нейтрализация кислоты";
-      eq.innerText = "HCl + NaOH = NaCl + H2O";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/neutralization.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction5':
-      title.innerText = "Растворение соли";
-      eq.innerText = "NaCl(s) → Na+(aq) + Cl-(aq)";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/salt_dissolve.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction6':
-      title.innerText = "Горение углерода";
-      eq.innerText = "C + O2 = CO2";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/carbon_burning.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction7':
-      title.innerText = "Взрыв аммония";
-      eq.innerText = "2 NH4NO3 → 2 N2 + O2 + 4 H2O";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/ammonium_explosion.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction8':
-      title.innerText = "Горение натрия";
-      eq.innerText = "2 Na + Cl2 = 2 NaCl";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/sodium_burning.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction9':
-      title.innerText = "Окисление меди";
-      eq.innerText = "2 Cu + O2 = 2 CuO";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/copper_oxidation.mp4" type="video/mp4">
                         </video>`;
       break;
     case 'reaction10':
-      title.innerText = "Гидролиз воды";
-      eq.innerText = "2 H2O = 2 H2 + O2";
       anim.innerHTML = `<video width="100%" controls autoplay>
                           <source src="videos/water_hydrolysis.mp4" type="video/mp4">
                         </video>`;
@@ -268,14 +271,12 @@ function openReactionModal(id){
   }
 }
 
+function closeReactionModal(){
+  document.getElementById('reaction-modal').style.display='none';
+}
 
-function closeReactionModal(){document.getElementById('reaction-modal').style.display='none';}
-</script>
-
-</body>
-</html>
-<script>
-// --- Переключение языков ---
+// ===== Переключение языков =====
+let currentLang = "ru";
 const translations = {
   ru: {
     home: "Главная",
@@ -284,7 +285,22 @@ const translations = {
     reaction1_eq: "2 H2 + O2 = 2 H2O",
     reaction2_title: "Горение магния",
     reaction2_eq: "2 Mg + O2 = 2 MgO",
-    // ...остальные реакции
+    reaction3_title: "Ржавление железа",
+    reaction3_eq: "4 Fe + 3 O2 + 6 H2O = 4 Fe(OH)3",
+    reaction4_title: "Нейтрализация кислоты",
+    reaction4_eq: "HCl + NaOH = NaCl + H2O",
+    reaction5_title: "Растворение соли",
+    reaction5_eq: "NaCl(s) → Na+(aq) + Cl-(aq)",
+    reaction6_title: "Горение углерода",
+    reaction6_eq: "C + O2 = CO2",
+    reaction7_title: "Взрыв аммония",
+    reaction7_eq: "2 NH4NO3 → 2 N2 + O2 + 4 H2O",
+    reaction8_title: "Горение натрия",
+    reaction8_eq: "2 Na + 2 H2O = 2 NaOH + H2",
+    reaction9_title: "Окисление меди",
+    reaction9_eq: "2 Cu + O2 → 2 CuO",
+    reaction10_title: "Гидролиз воды",
+    reaction10_eq: "H2O → H+ + OH-"
   },
   kz: {
     home: "Басты бет",
@@ -293,42 +309,56 @@ const translations = {
     reaction1_eq: "2 H2 + O2 = 2 H2O",
     reaction2_title: "Магний жануы",
     reaction2_eq: "2 Mg + O2 = 2 MgO",
-    // ...остальные реакции
+    reaction3_title: "Темірдің тоттануы",
+    reaction3_eq: "4 Fe + 3 O2 + 6 H2O = 4 Fe(OH)3",
+    reaction4_title: "Қышқылды бейтараптау",
+    reaction4_eq: "HCl + NaOH = NaCl + H2O",
+    reaction5_title: "Тұз еріту",
+    reaction5_eq: "NaCl(s) → Na+(aq) + Cl-(aq)",
+    reaction6_title: "Көміртек жануы",
+    reaction6_eq: "C + O2 = CO2",
+    reaction7_title: "Аммонийдің жарылысы",
+    reaction7_eq: "2 NH4NO3 → 2 N2 + O2 + 4 H2O",
+    reaction8_title: "Натрий жануы",
+    reaction8_eq: "2 Na + 2 H2O = 2 NaOH + H2",
+    reaction9_title: "Мыс тотығуы",
+    reaction9_eq: "2 Cu + O2 → 2 CuO",
+    reaction10_title: "Судың гидролизі",
+    reaction10_eq: "H2O → H+ + OH-"
   }
 };
 
-let currentLang = "ru"; // язык по умолчанию
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+  btn.addEventListener("click", e=>{
+    e.preventDefault();
+    const lang = btn.getAttribute("data-lang");
+    currentLang = lang;
+    setLanguage(lang);
+  });
+});
 
 function setLanguage(lang){
-  currentLang = lang;
-
-  // Меняем текст кнопок навигации
-  document.querySelectorAll("nav a").forEach(btn=>{
-    const key = btn.getAttribute("data-key");
-    if(key && translations[lang][key]){
-      btn.innerText = translations[lang][key];
+  // Вкладки
+  document.querySelectorAll("nav a[data-key]").forEach(el=>{
+    const key = el.getAttribute("data-key");
+    if(translations[lang][key]){
+      el.innerText = translations[lang][key];
     }
   });
 
-  // Меняем текст открытой реакции, если модалка открыта
+  // Модалка
   const modal = document.getElementById("reaction-modal");
-  if(modal.style.display === "block"){
+  if(modal.style.display==='block'){
+    const id = modal.getAttribute("data-current-reaction");
     const title = document.getElementById("reaction-title");
     const eq = document.getElementById("reaction-equation");
-    const id = modal.getAttribute("data-current-reaction");
     if(id){
       title.innerText = translations[lang][id+"_title"];
       eq.innerText = translations[lang][id+"_eq"];
     }
   }
 }
-
-// Привязываем кнопки к функции
-document.querySelectorAll(".lang-btn").forEach(btn=>{
-  btn.addEventListener("click", e=>{
-    e.preventDefault();
-    const lang = btn.getAttribute("data-lang");
-    setLanguage(lang);
-  });
-});
 </script>
+
+</body>
+</html>
