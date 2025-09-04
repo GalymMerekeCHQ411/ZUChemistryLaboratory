@@ -110,20 +110,6 @@ button:hover {
 
 /* ===== Декоративные элементы на фоне ===== */
 
-/* Пробирка слева сверху */
-body::before {
-  content: "";
-  position: absolute;
-  width: 120px;
-  height: 240px;
-  top: 20px;
-  left: 20px;
-  background: url('images/test-tube.svg') no-repeat center/contain;
-  opacity: 0.8;
-  animation: float 6s ease-in-out infinite alternate;
-  z-index: 0;
-}
-
 /* Молекула справа снизу */
 body::after {
   content: "";
@@ -138,18 +124,6 @@ body::after {
   z-index: 0;
 }
 
-/* Колба сверху справа */
-#corner1 {
-  width: 60px;
-  height: 100px;
-  top: 30px;
-  right: 30px;
-  position: absolute;
-  background: url('images/flask.svg') no-repeat center/contain;
-  opacity: 1;
-  animation: float 7s ease-in-out infinite alternate;
-  z-index: 0;
-}
 
 
 /* ===== Анимация движения ===== */
