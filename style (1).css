@@ -1,0 +1,173 @@
+/* ===== Основной фон и стиль страницы ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: white;
+  color: #333;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== Полоски сверху и снизу ===== */
+.header-stripe, .footer-stripe {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(90deg, #8B4513, #1A237E);
+}
+
+.header-stripe {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.footer-stripe {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+/* ===== Заголовки ===== */
+h1, h2 {
+  color: #1A237E;
+  text-align: center;
+}
+
+/* ===== Навигация ===== */
+nav {
+  background: white;
+  padding: 10px 0;
+  text-align: center;
+  border-bottom: 2px solid #8B4513;
+}
+
+nav a {
+  color: #1A237E;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #8B4513;
+  text-shadow: 0 0 5px #8B4513;
+}
+
+/* ===== Секции ===== */
+section {
+  background: #ffffff;
+  padding: 25px 20px;
+  margin: 40px auto;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Поля ввода и кнопки ===== */
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 70%;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #1A237E;
+  box-shadow: 0 0 5px #1A237E;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #1A237E;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #8B4513;
+  box-shadow: 0 0 5px #8B4513;
+}
+
+/* ===== Результат калькулятора ===== */
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* ===== Декоративные элементы на фоне ===== */
+
+/* Пробирка слева сверху */
+body::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 240px;
+  top: 20px;
+  left: 20px;
+  background: url('images/test-tube.svg') no-repeat center/contain;
+  opacity: 0.8;
+  animation: float 6s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+/* Молекула справа снизу */
+body::after {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  bottom: 20px;
+  right: 20px;
+  background: url('images/molecule.svg') no-repeat center/contain;
+  opacity: 0.8;
+  animation: float 8s ease-in-out infinite alternate-reverse;
+  z-index: 0;
+}
+
+/* Колба сверху справа */
+#corner1 {
+  width: 60px;
+  height: 100px;
+  top: 30px;
+  right: 30px;
+  position: absolute;
+  background: url('images/flask.svg') no-repeat center/contain;
+  opacity: 1;
+  animation: float 7s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+
+/* ===== Анимация движения ===== */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(10px); }
+}
+nav a {
+  color:#FF9800;
+  margin:0 15px;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:18px;
+  transition: 0.3s;
+  position: relative;
+}
+
+nav a:hover {
+  text-shadow: 0 0 5px #FF9800, 0 0 10px #FF9800, 0 0 20px #FF9800, 0 0 40px #FF9800;
+  color:#fff;
+}
