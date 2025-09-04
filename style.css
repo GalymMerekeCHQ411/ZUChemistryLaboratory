@@ -1,4 +1,4 @@
-/* Основной фон страницы */
+/* ===== Основной фон и стиль страницы ===== */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -9,7 +9,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Полоски сверху и снизу */
+/* ===== Полоски сверху и снизу ===== */
 .header-stripe, .footer-stripe {
   width: 100%;
   height: 10px;
@@ -28,13 +28,13 @@ body {
   left: 0;
 }
 
-/* Заголовки */
+/* ===== Заголовки ===== */
 h1, h2 {
   color: #1A237E;
   text-align: center;
 }
 
-/* Меню */
+/* ===== Навигация ===== */
 nav {
   background: white;
   padding: 10px 0;
@@ -55,7 +55,7 @@ nav a:hover {
   text-shadow: 0 0 5px #8B4513;
 }
 
-/* Секции */
+/* ===== Секции ===== */
 section {
   background: #ffffff;
   padding: 25px 20px;
@@ -68,7 +68,7 @@ section {
   z-index: 1;
 }
 
-/* Поля ввода и кнопки */
+/* ===== Поля ввода и кнопки ===== */
 input[type="text"] {
   padding: 10px;
   font-size: 16px;
@@ -100,7 +100,7 @@ button:hover {
   box-shadow: 0 0 5px #8B4513;
 }
 
-/* Результат калькулятора */
+/* ===== Результат калькулятора ===== */
 #result {
   margin-top: 15px;
   font-weight: bold;
@@ -108,28 +108,34 @@ button:hover {
   text-align: center;
 }
 
-/* Декоративные SVG элементы на фоне */
+/* ===== Декоративные элементы на фоне ===== */
 
 /* Пробирка слева сверху */
 body::before {
+  content: "";
+  position: absolute;
   width: 60px;
   height: 120px;
   top: 20px;
   left: 20px;
   background: url('images/test-tube.svg') no-repeat center/contain;
-  opacity: 0.6;
+  opacity: 0.8;
   animation: float 6s ease-in-out infinite alternate;
+  z-index: 0;
 }
 
 /* Молекула справа снизу */
 body::after {
+  content: "";
+  position: absolute;
   width: 80px;
   height: 80px;
   bottom: 20px;
   right: 20px;
   background: url('images/molecule.svg') no-repeat center/contain;
-  opacity: 0.6;
+  opacity: 0.8;
   animation: float 8s ease-in-out infinite alternate-reverse;
+  z-index: 0;
 }
 
 /* Колба сверху справа */
@@ -138,14 +144,15 @@ body::after {
   height: 100px;
   top: 30px;
   right: 30px;
+  position: absolute;
   background: url('images/flask.svg') no-repeat center/contain;
-  opacity: 0.6;
+  opacity: 0.8;
   animation: float 7s ease-in-out infinite alternate;
+  z-index: 0;
 }
 
-
-/* Анимация движения */
+/* ===== Анимация движения ===== */
 @keyframes float {
   0% { transform: translateY(0px); }
-  100% { transform: translateY(15px); }
+  100% { transform: translateY(10px); }
 }
