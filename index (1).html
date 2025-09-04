@@ -111,8 +111,12 @@ nav a:hover {
 </div>
 
 <nav>
-  <a href="#" onclick="showSection('calculator-section')">Главная</a>
-  <a href="#" onclick="showSection('animations-section')">Анимации</a>
+  <a href="#" data-key="home">Главная</a>
+  <a href="#" data-key="animations">Анимации</a>
+
+  <!-- Кнопки смены языка -->
+  <a href="#" class="lang-btn" data-lang="ru">Русский</a>
+  <a href="#" class="lang-btn" data-lang="kz">Қазақша</a>
 </nav>
 
 <section id="calculator-section">
@@ -332,3 +336,6 @@ document.querySelectorAll(".lang-btn").forEach(btn=>{
   });
 });
 </script>
+<script src="lang.js"></script>
+</body>
+</html>
