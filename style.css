@@ -112,42 +112,37 @@ button:hover {
 
 /* Пробирка слева сверху */
 body::before {
-  content: "";
-  position: absolute;
-  width: 80px;
-  height: 150px;
+  width: 60px;
+  height: 120px;
+  top: 20px;
+  left: 20px;
   background: url('images/test-tube.svg') no-repeat center/contain;
-  top: -20px;
-  left: -20px;
   opacity: 0.6;
   animation: float 6s ease-in-out infinite alternate;
 }
 
 /* Молекула справа снизу */
 body::after {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+  bottom: 20px;
+  right: 20px;
   background: url('images/molecule.svg') no-repeat center/contain;
-  bottom: -30px;
-  right: -30px;
   opacity: 0.6;
   animation: float 8s ease-in-out infinite alternate-reverse;
 }
 
 /* Колба сверху справа */
 #corner1 {
-  content: "";
-  position: absolute;
-  width: 70px;
-  height: 120px;
-  background: url('images/flask.svg') no-repeat center/contain;
+  width: 60px;
+  height: 100px;
   top: 30px;
-  right: 50px;
+  right: 30px;
+  background: url('images/flask.svg') no-repeat center/contain;
   opacity: 0.6;
   animation: float 7s ease-in-out infinite alternate;
 }
+
 
 /* Анимация движения */
 @keyframes float {
