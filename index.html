@@ -2,25 +2,107 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Виртуальная химическая лаборатория</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🔬 Виртуальная химическая лаборатория</h1>
+
+  <!-- Полоски сверху и снизу -->
+  <div class="header-stripe"></div>
+  <div class="footer-stripe"></div>
+
+  <!-- Навигация -->
   <nav>
-    <a href="#calc">Калькулятор</a> |
-    <a href="#animations">Анимации</a> |
-    <a href="#about">О проекте</a>
+    <a href="#" onclick="showSection('calculator-section')">Главная</a>
+    <a href="#" onclick="showSection('animations-section')">Анимации</a>
   </nav>
 
-  <section id="calc">
-    <h2>Калькулятор молекулярной массы</h2>
-    <input type="text" id="formula" placeholder="Например: H2O">
-    <button onclick="calcMass()">Рассчитать</button>
-    <p id="result"></p>
+  <!-- Секция калькулятора -->
+  <section id="calculator-section">
+    <h1>Калькулятор молекулярной массы</h1>
+    <input type="text" id="formula" placeholder="Введите формулу, например H2O">
+    <button onclick="calculateMass()">Посчитать</button>
+    <div id="result"></div>
   </section>
 
-  <script src="script.js"></script>
-</body>
+  <!-- Секция анимаций -->
+  <section id="animations-section" style="display:none;">
+    <h1>Анимации химических реакций</h1>
+    <p>Нажмите на кнопку, чтобы увидеть реакцию:</p>
+    <button onclick="showReaction('reaction1')">Реакция 1</button>
+    <button onclick="showReaction('reaction2')">Реакция 2</button>
+    <div id="reaction-container" style="margin-top:20px; text-align:center;"></div>
+  </section>
+
+  <!-- Декоративная колба -->
   <div id="corner1"></div>
+
+  <!-- Скрипт -->
+  <script>
+    // Переключение секций
+    function showSection(sectionId) {
+      document.getElementById('calculator-section').style.display = 'none';
+      document.getElementById('animations-section').style.display = 'none';
+      document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Калькулятор молекулярной массы (простейший пример)
+    const atomicMass = {
+      H: 1.008,
+      O: 16.00,
+      C: 12.01,
+      N: 14.01,
+      Ca: 40.08,
+      Mg: 24.31,
+      // добавь остальные элементы
+    };
+
+    function calculateMass() {
+      const formula = document.getElementById('formula').value;
+      const regex = /([A-Z][a-z]?)(\d*)/g;
+      let match;
+      let total = 0;
+
+      while ((match = regex.exec(formula)) !== null) {
+        const element = match[1];
+        const count = parseInt(match[2] || 1);
+        if (atomicMass[element]) {
+          total += atomicMass[element] * count;
+        } else {
+          alert(`Неизвестный элемент: ${element}`);
+        }
+      }
+
+      document.getElementById('result').innerText = `Молекулярная масса: ${total.toFixed(2)} г/моль`;
+    }
+
+    // Анимация реакций
+    function showReaction(name) {
+      const container = document.getElementById('reaction-container');
+      if (name === 'reaction1') {
+        container.innerHTML = `<div style="width:200px; height:200px; background:#1A237E; border-radius:50%; margin:0 auto; animation:react1 2s infinite alternate;"></div>`;
+      } else if (name === 'reaction2') {
+        container.innerHTML = `<div style="width:200px; height:200px; background:#FF8C00; border-radius:50%; margin:0 auto; animation:react2 2s infinite alternate;"></div>`;
+      }
+    }
+  </script>
+
+  <!-- Встроенные стили для анимации реакций -->
+  <style>
+    @keyframes react1 {
+      0% { transform: scale(1); background:#1A237E; }
+      50% { transform: scale(1.3); background:#8B4513; }
+      100% { transform: scale(1); background:#1A237E; }
+    }
+
+    @keyframes react2 {
+      0% { transform: scale(1); background:#FF8C00; }
+      50% { transform: scale(1.3); background:#1A237E; }
+      100% { transform: scale(1); background:#FF8C00; }
+    }
+  </style>
+
+</body>
 </html>
+
