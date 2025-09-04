@@ -140,16 +140,17 @@ body::after {
 
 /* Колба сверху справа */
 #corner1 {
-  width: 120px;
-  height: 200px;
+  width: 60px;
+  height: 100px;
   top: 30px;
   right: 30px;
   position: absolute;
   background: url('images/flask.svg') no-repeat center/contain;
-  opacity: 0.8;
+  opacity: 1;
   animation: float 7s ease-in-out infinite alternate;
   z-index: 0;
 }
+
 
 /* ===== Анимация движения ===== */
 @keyframes float {
